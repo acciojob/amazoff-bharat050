@@ -33,11 +33,11 @@ public class OrderService {
         return repository.getOrderCountByPartnerId(partnerId);
     }
 
-    public List<Order> getOrderByPartnerId(String partnerId) {
+    public List<String> getOrderByPartnerId(String partnerId) {
         return repository.getOrderByPartnerId(partnerId);
     }
 
-    public List<Order> getAllOrders() {
+    public List<String> getAllOrders() {
         return repository.getAllOrders();
     }
 

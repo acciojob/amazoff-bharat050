@@ -44,18 +44,18 @@ public class OrderRepository {
         return 0;
     }
 
-    public List<Order> getOrderByPartnerId(String partnerId) {
-        List<Order> orders = new ArrayList<>();
+    public List<String> getOrderByPartnerId(String partnerId) {
+        List<String> orders = new ArrayList<>();
         for(String orderId : orderPartnerDB.keySet()){
-            if(partnerId.equals(orderPartnerDB.get(orderId))) orders.add(orderDB.get(orderId));
+            if(partnerId.equals(orderPartnerDB.get(orderId))) orders.add(orderId);
         }
         return orders;
     }
 
-    public List<Order> getAllOrders() {
-        List<Order> ans = new ArrayList<>();
+    public List<String> getAllOrders() {
+        List<String> ans = new ArrayList<>();
         for(String s: orderDB.keySet()){
-            ans.add(orderDB.get(s));
+            ans.add(s);
         }
         return ans;
     }
@@ -72,18 +72,18 @@ public class OrderRepository {
         int count =0;
         String[] t = time.split(":");
         int time1 = Integer.parseInt(t[0])*60 + Integer.parseInt(t[1]);
-        List<Order> orders = getOrderByPartnerId(partnerId);
-        for(Order order: orders){
-            if(order.getDeliveryTime() > time1) count++;
+        List<String> orders = getOrderByPartnerId(partnerId);
+        for(String order: orders){
+            if(orderDB.get(order).getDeliveryTime() > time1) count++;
         }
         return count;
     }
 
     public String getLastDeliveryTimeByPartnerId(String partnerId) {
-        List<Order> orders = getOrderByPartnerId(partnerId);
+        List<String> orders = getOrderByPartnerId(partnerId);
         List<Integer> time = new ArrayList<>();
-        for(Order order: orders){
-            time.add(order.getDeliveryTime());
+        for(String order: orders){
+            time.add(orderDB.get(order).getDeliveryTime());
         }
         Collections.sort(time);
         String ans ="";
@@ -100,9 +100,9 @@ public class OrderRepository {
     }
 
     public void deletePartnerById(String partnerId) {
-        List<Order> orders = getOrderByPartnerId(partnerId);
-        for(Order order: orders){
-            orderPartnerDB.remove(order.getId());
+        List<String> orders = getOrderByPartnerId(partnerId);
+        for(String order: orders){
+            orderPartnerDB.remove(order);
         }
         deliveryPartnerDB.remove(partnerId);
     }
